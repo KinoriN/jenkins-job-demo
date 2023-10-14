@@ -7,11 +7,7 @@ podTemplate(label: label, containers: [
   node(label) {
     stage('checkout') {
       checkout scm
-      post {
-        success {
-          stash name: 'artifacts-code', includes: "jenkins-build-demo/**"
-        }
-      }
+      stash name: 'artifacts-code', includes: "jenkins-build-demo/**"
     }
 
     stage('build dist') {
