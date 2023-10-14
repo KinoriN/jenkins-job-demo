@@ -6,7 +6,7 @@ pipeline {
 
   }
   stages {
-    stage('error') {
+    stage('log') {
       steps {
         sh 'echo "test"'
       }
