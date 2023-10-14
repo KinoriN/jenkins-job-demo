@@ -7,25 +7,14 @@ podTemplate(label: label, containers: [
   node(label) {
     stage('checkout') {
       checkout scm
-      stash name: 'artifacts-code', includes: "jenkins-build-demo/**"
+      dir 'jenkins-build-demo'
     }
 
     stage('build dist') {
       container('node18') {
-        unstash 'artifacts-code'
-
-        dir 'jenkins-build-demo'
         sh 'npm i pnpm -g'
         sh 'pnpm install --frozen-lockfile'
         sh 'pnpm build'
-
-        stash name: 'artifacts-dist', includes: "dist/**"
-      }
-    }
-
-    stage('build docker image') {
-      container('docker') {
-        unstash 'artifacts-dist'
       }
     }
   }
