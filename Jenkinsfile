@@ -5,12 +5,20 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true)
 ]) {
   node(label) {
-    stage('Get a nodejs') {
+    stage('setup dependencies') {
       container('node18') {
-        checkout scm
-        sh 'ls'
-        // sh 'pnpm i'
-        // sh 'pnpm run build'
+        step('checkout') {
+          checkout scm
+        }
+        step('cd') {
+          sh 'cd jenkins-build-demo'
+        }
+        step('setup dependencies') {
+          sh 'pnpm i'
+        }
+        step('build') {
+          sh 'pnpm run build'
+        }
       }
     }
   }
