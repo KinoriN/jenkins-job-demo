@@ -7,6 +7,7 @@ podTemplate(label: label, containers: [
   node(label) {
     stage('Get a nodejs') {
       container('node18') {
+        checkout scm
         sh 'ls'
         // sh 'pnpm i'
         // sh 'pnpm run build'
