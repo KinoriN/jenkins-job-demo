@@ -1,17 +1,12 @@
-pipeline {
-  agent {
-    kubernetes {
-      label "node18"
-      defaultContainer 'node:18-alpine'
-    }
-  }
+def label = "slave-${UUID.randomUUID().toString()}"
 
-  stages {
-    stage('Test') {
-      steps {
-        container('node') {
-          sh 'node --version'
-        }
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'node18', image: 'node:18-alpine')
+]) {
+  node(label) {
+    stage('Get a nodejs') {
+      container('node18') {
+        sh 'node --version'
       }
     }
   }
