@@ -7,17 +7,19 @@ podTemplate(label: label, containers: [
   node(label) {
     stage('setup dependencies') {
       container('node18') {
-        step('checkout') {
-          checkout scm
-        }
-        step('cd') {
-          sh 'cd jenkins-build-demo'
-        }
-        step('setup dependencies') {
-          sh 'pnpm i'
-        }
-        step('build') {
-          sh 'pnpm run build'
+        steps {
+          step('checkout') {
+            checkout scm
+          }
+          step('cd') {
+            sh 'cd jenkins-build-demo'
+          }
+          step('setup dependencies') {
+            sh 'pnpm i'
+          }
+          step('build') {
+            sh 'pnpm run build'
+          }
         }
       }
     }
