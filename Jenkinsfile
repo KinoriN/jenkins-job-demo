@@ -5,21 +5,13 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true)
 ]) {
   node(label) {
-    stage('checkout') {
-      checkout scm
-      sh 'cd jenkins-build-demo'
-    }
-
     stage('build dist') {
       container('node18') {
+        checkout scm
+        sh 'cd jenkins-build-demo'
         sh 'npm i pnpm -g'
         sh 'pnpm install --frozen-lockfile'
         sh 'pnpm build'
-      }
-    }
-
-    post {
-      success {
         sh 'tar -czvf dist.tar.gz dist'
         archiveArtifacts artifacts: 'dist.tar.gz', fingerprint: true
       }
