@@ -12,11 +12,12 @@ podTemplate(label: label, containers: [
 
     stage('build dist') {
       container('node18') {
+        sh 'npm i pnpm -g'
         sh 'pnpm install --frozen-lockfile'
         sh 'pnpm build'
       }
     }
-    
+
     post {
       success {
         sh 'tar -czvf dist.tar.gz dist'
