@@ -7,14 +7,13 @@ podTemplate(label: label, containers: [
   node(label) {
     stage('checkout') {
       checkout scm
-      dir 'jenkins-build-demo'
     }
 
     stage('build dist') {
       container('node18') {
         sh 'npm i pnpm -g'
-        sh 'pnpm install --frozen-lockfile'
-        sh 'pnpm build'
+        sh 'cd jenkins-build-demo && pnpm install --frozen-lockfile'
+        sh 'cd jenkins-build-demo && pnpm build'
       }
     }
   }
