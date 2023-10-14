@@ -14,6 +14,7 @@ podTemplate(label: label, containers: [
       container('node18') {
         unstash 'artifacts-code'
 
+        dir 'jenkins-build-demo'
         sh 'npm i pnpm -g'
         sh 'pnpm install --frozen-lockfile'
         sh 'pnpm build'
