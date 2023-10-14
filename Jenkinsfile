@@ -9,14 +9,18 @@ podTemplate(label: label, containers: [
       checkout scm
       sh 'cd jenkins-build-demo'
     }
+
     stage('build dist') {
       container('node18') {
-        step('setup dependencies') {
-          sh 'pnpm i'
-        }
-        step('build') {
-          sh 'pnpm run build'
-        }
+        sh 'pnpm install --frozen-lockfile'
+        sh 'pnpm build'
+      }
+    }
+    
+    post {
+      success {
+        sh 'tar -czvf dist.tar.gz dist'
+        archiveArtifacts artifacts: 'dist.tar.gz', fingerprint: true
       }
     }
   }
