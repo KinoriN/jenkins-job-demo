@@ -11,6 +11,7 @@ podTemplate(label: label, containers: [
 
     stage('build dist') {
       container('node18') {
+        sh 'npm config set registry http://npm.dev/'
         sh 'npm i pnpm -g'
         sh 'cd jenkins-build-demo && pnpm install --frozen-lockfile'
         sh 'cd jenkins-build-demo && pnpm build'
