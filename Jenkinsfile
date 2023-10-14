@@ -1,16 +1,18 @@
 pipeline {
   agent {
-    docker {
-      image 'node:18-alpine'
+    kubernetes {
+      label "node18"
+      defaultContainer 'node:18-alpine'
     }
-
   }
+
   stages {
-    stage('log') {
+    stage('Test') {
       steps {
-        sh 'echo "test"'
+        container('node') {
+          sh 'node --version'
+        }
       }
     }
-
   }
 }
