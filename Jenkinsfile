@@ -3,6 +3,8 @@ def label = "slave-${UUID.randomUUID().toString()}"
 podTemplate(label: label, containers: [
   containerTemplate(name: 'node18', image: 'node:18-alpine', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'docker', image: 'docker:dind', command: 'cat', ttyEnabled: true)
+], volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
   node(label) {
     stage('checkout') {
