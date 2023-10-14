@@ -16,5 +16,11 @@ podTemplate(label: label, containers: [
         sh 'cd jenkins-build-demo && pnpm build'
       }
     }
+
+    stage('build docker image') {
+      container('docker') {
+        sh 'docker build -t jenkins-build-demo:latest jenkins-build-demo'
+      }
+    }
   }
 }
